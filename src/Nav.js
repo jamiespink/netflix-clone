@@ -1,10 +1,23 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./Nav.css";
 import logo from "./assets/netflix-logo.png";
 
 function Nav() {
+  const [show, handleShow] = useState(false);
+  const transitionNavbar = () => {
+    if (window.scrollY > 100) {
+      handleShow(true);
+    } else {
+      handleShow(false);
+    }
+  };
+  useEffect(() => {
+    window.addEventListener("scroll", transitionNavbar);
+    return () => window.removeEventListener("scroll", transitionNavbar);
+  }, []);
+
   return (
-    <div className="nav">
+    <div className={`nav ${show && "nav__black"}`}>
       <div className="nav__contents">
         <img className="nav__logo" src={logo} alt="" />
         <img
@@ -13,7 +26,6 @@ function Nav() {
           alt=""
         />
       </div>
-      <h1>This is the nav</h1>
     </div>
   );
 }
